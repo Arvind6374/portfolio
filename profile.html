@@ -1141,10 +1141,10 @@
         </div>
       </div>
 
-      <div class="project-card reveal">
+      <div class="project-card reveal" style="cursor: pointer;" onclick="openCompanyModal()" title="Click to view details">
         <div class="project-num">04</div>
-        <div class="project-title">Lead Generation Automation Pipeline</div>
-        <div class="project-desc">Automated data pipeline to collect, clean, standardize, and store public-source data using Python, REST APIs, and PostgreSQL — significantly reducing repetitive manual effort for business intelligence workflows.</div>
+        <div class="project-title">Company Detail Finder <span style="font-size: 0.8em; color: var(--accent); font-weight: normal; margin-left: 8px;">↗ View Details</span></div>
+        <div class="project-desc">Automated tool to search, collect, clean, and standardize public-source company profiles and contact details using Python and APIs — significantly reducing repetitive manual effort for lead generation.</div>
         <div class="project-stack">
           <span class="stack-tag">Python</span>
           <span class="stack-tag">PostgreSQL</span>
@@ -1438,7 +1438,57 @@
         dotsContainer.appendChild(dot);
       }
     }
+  
+    // COMPANY MODAL LOGIC
+    let companyCurrentSlide = 0;
+    const companyTotalSlides = 4;
+    
+    function openCompanyModal() {
+      document.getElementById('companyModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+      initCompanyDots();
+      updateCompanyCarousel();
+    }
+    
+    function closeCompanyModal() {
+      document.getElementById('companyModal').classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+    
+    function moveCompanySlide(dir) {
+      companyCurrentSlide += dir;
+      if (companyCurrentSlide < 0) companyCurrentSlide = companyTotalSlides - 1;
+      if (companyCurrentSlide >= companyTotalSlides) companyCurrentSlide = 0;
+      updateCompanyCarousel();
+    }
+    
+    function goToCompanySlide(index) {
+      companyCurrentSlide = index;
+      updateCompanyCarousel();
+    }
+    
+    function updateCompanyCarousel() {
+      const track = document.getElementById('companyCarouselTrack');
+      track.style.transform = `translateX(-${companyCurrentSlide * 100}%)`;
+      
+      const dots = document.getElementById('companyCarouselDots').querySelectorAll('.dot');
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === companyCurrentSlide);
+      });
+    }
+    
+    function initCompanyDots() {
+      const dotsContainer = document.getElementById('companyCarouselDots');
+      dotsContainer.innerHTML = '';
+      for(let i=0; i<companyTotalSlides; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot' + (i===companyCurrentSlide ? ' active' : '');
+        dot.onclick = () => goToCompanySlide(i);
+        dotsContainer.appendChild(dot);
+      }
+    }
   </script>
+</script>
 </script>
   <script>
     function toggleTheme() {
@@ -1577,6 +1627,41 @@
             <li><strong>DAX Mastery:</strong> Implemented complex Data Analysis Expressions (DAX) for time-intelligence, dynamic filtering, and custom KPI tracking.</li>
             <li><strong>Actionable UI/UX:</strong> Designed clean, responsive, and intuitive visual layouts that enable stakeholders to drill-through from high-level summaries to granular details.</li>
             <li><strong>Data Transformation:</strong> Cleaned and consolidated data from multiple sources via Power Query before visualization.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- COMPANY FINDER MODAL -->
+  <div class="modal-overlay" id="companyModal" onclick="if(event.target===this) closeCompanyModal()">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeCompanyModal()">&times;</button>
+      <div class="modal-body">
+        <h3 class="modal-title">Company Detail Finder</h3>
+        
+        <div class="carousel-container">
+          <div class="carousel-track" id="companyCarouselTrack">
+            <div class="carousel-slide"><img src="company1.png" alt="Company Finder Screenshot 1" loading="lazy"></div>
+            <div class="carousel-slide"><img src="company2.png" alt="Company Finder Screenshot 2" loading="lazy"></div>
+            <div class="carousel-slide"><img src="company3.png" alt="Company Finder Screenshot 3" loading="lazy"></div>
+            <div class="carousel-slide"><img src="company4.png" alt="Company Finder Screenshot 4" loading="lazy"></div>
+          </div>
+          <button class="carousel-btn carousel-prev" onclick="moveCompanySlide(-1)">&#10094;</button>
+          <button class="carousel-btn carousel-next" onclick="moveCompanySlide(1)">&#10095;</button>
+        </div>
+        <div class="carousel-dots" id="companyCarouselDots"></div>
+
+        <div class="modal-desc">
+          <p>The <strong>Company Detail Finder</strong> is an automated data pipeline designed to streamline lead generation by dynamically searching, extracting, and standardizing public-source company profiles.</p>
+          <br>
+          <p><strong>Key Features & Workflow:</strong></p>
+          <ul style="margin-left: 1.5rem; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
+            <li><strong>Automated Data Extraction:</strong> Leverages Python and REST APIs to pull verified company details, eliminating hours of manual web searching.</li>
+            <li><strong>Data Cleaning & Standardization:</strong> Implements ETL pipelines to format extracted data consistently before pushing it to the database.</li>
+            <li><strong>Robust Storage:</strong> Uses PostgreSQL to store historical data efficiently, allowing for quick retrieval and business intelligence querying.</li>
+            <li><strong>Seamless Workflow Integration:</strong> Specifically built to empower sales and research teams by delivering clean, structured data directly into their pipelines.</li>
           </ul>
         </div>
       </div>
