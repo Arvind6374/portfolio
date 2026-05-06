@@ -811,15 +811,28 @@
       border: 1px solid var(--border);
       margin-bottom: 1rem;
       background: var(--surface2);
+      height: 420px;
     }
     .carousel-track {
       display: flex; transition: transform 0.4s ease-in-out;
+      height: 100%;
     }
     .carousel-slide {
       min-width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface2);
+      overflow: hidden;
     }
     .carousel-slide img {
-      width: 100%; height: auto; display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      padding: 12px;
+      box-sizing: border-box;
     }
     .carousel-btn {
       position: absolute; top: 50%; transform: translateY(-50%);
