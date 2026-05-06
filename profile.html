@@ -1508,54 +1508,6 @@
     }
   </script>
 
-  <script>
-    let currentSlide = 0;
-    const totalSlides = 7;
-    
-    function openModal() {
-      document.getElementById('projectModal').classList.add('active');
-      document.body.style.overflow = 'hidden';
-      initDots();
-      updateCarousel();
-    }
-    
-    function closeModal() {
-      document.getElementById('projectModal').classList.remove('active');
-      document.body.style.overflow = 'auto';
-    }
-    
-    function moveSlide(dir) {
-      currentSlide += dir;
-      if (currentSlide < 0) currentSlide = totalSlides - 1;
-      if (currentSlide >= totalSlides) currentSlide = 0;
-      updateCarousel();
-    }
-    
-    function goToSlide(index) {
-      currentSlide = index;
-      updateCarousel();
-    }
-    
-    function updateCarousel() {
-      const track = document.getElementById('carouselTrack');
-      track.style.transform = `translateX(-${currentSlide * 100}%)`;
-      
-      const dots = document.querySelectorAll('.dot');
-      dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === currentSlide);
-      });
-    }
-    
-    function initDots() {
-      const dotsContainer = document.getElementById('carouselDots');
-      dotsContainer.innerHTML = '';
-      for(let i=0; i<totalSlides; i++) {
-        const dot = document.createElement('div');
-        dot.className = 'dot' + (i===currentSlide ? ' active' : '');
-        dot.onclick = () => goToSlide(i);
-        dotsContainer.appendChild(dot);
-      }
-    }
-  </script>
+
 </body>
 </html>
