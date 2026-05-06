@@ -1117,15 +1117,15 @@
         </div>
       </div>
 
-      <div class="project-card reveal">
+      <div class="project-card reveal" style="cursor: pointer;" onclick="openPowerBIModal()" title="Click to view details">
         <div class="project-num">02</div>
-        <div class="project-title">ML-Powered Trade Analytics & Forecasting Dashboard</div>
-        <div class="project-desc">Interactive analytics dashboard analyzing import-export trends, product movement, and country-level KPIs using validated datasets. Applied forecasting and data reconciliation techniques to improve recurring reporting accuracy.</div>
+        <div class="project-title">Power BI Data Visualizations & Analytics <span style="font-size: 0.8em; color: var(--accent); font-weight: normal; margin-left: 8px;">↗ View Showcase</span></div>
+        <div class="project-desc">A comprehensive showcase of interactive analytics dashboards analyzing key performance indicators, product movement, and financial trends. Applied data modeling, DAX, and reconciliation techniques to deliver actionable business intelligence.</div>
         <div class="project-stack">
           <span class="stack-tag">Power BI</span>
-          <span class="stack-tag">Python</span>
-          <span class="stack-tag">SQL</span>
-          <span class="stack-tag">scikit-learn</span>
+          <span class="stack-tag">DAX</span>
+          <span class="stack-tag">Data Modeling</span>
+          <span class="stack-tag">Business Intelligence</span>
         </div>
       </div>
 
@@ -1389,7 +1389,57 @@
     document.querySelectorAll('.skills-grid .skill-card, .projects-grid .project-card, .achievements-grid .ach-card').forEach((el, i) => {
       el.style.transitionDelay = (i % 3) * 0.1 + 's';
     });
+  
+    // POWER BI MODAL LOGIC
+    let pbCurrentSlide = 0;
+    const pbTotalSlides = 4;
+    
+    function openPowerBIModal() {
+      document.getElementById('powerBIModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+      initPbDots();
+      updatePbCarousel();
+    }
+    
+    function closePowerBIModal() {
+      document.getElementById('powerBIModal').classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+    
+    function movePbSlide(dir) {
+      pbCurrentSlide += dir;
+      if (pbCurrentSlide < 0) pbCurrentSlide = pbTotalSlides - 1;
+      if (pbCurrentSlide >= pbTotalSlides) pbCurrentSlide = 0;
+      updatePbCarousel();
+    }
+    
+    function goToPbSlide(index) {
+      pbCurrentSlide = index;
+      updatePbCarousel();
+    }
+    
+    function updatePbCarousel() {
+      const track = document.getElementById('pbCarouselTrack');
+      track.style.transform = `translateX(-${pbCurrentSlide * 100}%)`;
+      
+      const dots = document.getElementById('pbCarouselDots').querySelectorAll('.dot');
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === pbCurrentSlide);
+      });
+    }
+    
+    function initPbDots() {
+      const dotsContainer = document.getElementById('pbCarouselDots');
+      dotsContainer.innerHTML = '';
+      for(let i=0; i<pbTotalSlides; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot' + (i===pbCurrentSlide ? ' active' : '');
+        dot.onclick = () => goToPbSlide(i);
+        dotsContainer.appendChild(dot);
+      }
+    }
   </script>
+</script>
   <script>
     function toggleTheme() {
       const html = document.documentElement;
@@ -1497,6 +1547,41 @@
     }
   </script>
 
+
+
+  <!-- POWER BI MODAL -->
+  <div class="modal-overlay" id="powerBIModal" onclick="if(event.target===this) closePowerBIModal()">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closePowerBIModal()">&times;</button>
+      <div class="modal-body">
+        <h3 class="modal-title">Power BI Data Visualizations Showcase</h3>
+        
+        <div class="carousel-container">
+          <div class="carousel-track" id="pbCarouselTrack">
+            <div class="carousel-slide"><img src="powerbi1.png" alt="Power BI Dashboard 1" loading="lazy"></div>
+            <div class="carousel-slide"><img src="powerbi2.png" alt="Power BI Dashboard 2" loading="lazy"></div>
+            <div class="carousel-slide"><img src="powerbi3.png" alt="Power BI Dashboard 3" loading="lazy"></div>
+            <div class="carousel-slide"><img src="powerbi4.png" alt="Power BI Dashboard 4" loading="lazy"></div>
+          </div>
+          <button class="carousel-btn carousel-prev" onclick="movePbSlide(-1)">&#10094;</button>
+          <button class="carousel-btn carousel-next" onclick="movePbSlide(1)">&#10095;</button>
+        </div>
+        <div class="carousel-dots" id="pbCarouselDots"></div>
+
+        <div class="modal-desc">
+          <p>This showcase highlights a collection of interactive, high-impact <strong>Power BI Dashboards</strong> developed to transform raw datasets into intuitive business intelligence.</p>
+          <br>
+          <p><strong>Technical Highlights:</strong></p>
+          <ul style="margin-left: 1.5rem; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
+            <li><strong>Advanced Data Modeling:</strong> Built robust star schemas and relationship models to ensure fast, accurate query performance across millions of rows.</li>
+            <li><strong>DAX Mastery:</strong> Implemented complex Data Analysis Expressions (DAX) for time-intelligence, dynamic filtering, and custom KPI tracking.</li>
+            <li><strong>Actionable UI/UX:</strong> Designed clean, responsive, and intuitive visual layouts that enable stakeholders to drill-through from high-level summaries to granular details.</li>
+            <li><strong>Data Transformation:</strong> Cleaned and consolidated data from multiple sources via Power Query before visualization.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>
