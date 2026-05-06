@@ -1129,9 +1129,9 @@
         </div>
       </div>
 
-      <div class="project-card reveal">
+      <div class="project-card reveal" style="cursor: pointer;" onclick="openLeafModal()" title="Click to view details">
         <div class="project-num">03</div>
-        <div class="project-title">Leaf Disease Detection (Deep Learning)</div>
+        <div class="project-title">Leaf Disease Detection (Deep Learning) <span style="font-size: 0.8em; color: var(--accent); font-weight: normal; margin-left: 8px;">↗ View Details</span></div>
         <div class="project-desc">Deep learning-based image classification for plant disease detection using convolutional neural networks. Performed image preprocessing, model training, evaluation, and optimization. Published in peer-reviewed journal.</div>
         <div class="project-stack">
           <span class="stack-tag">Python</span>
@@ -1503,7 +1503,56 @@
         dotsContainer.appendChild(dot);
       }
     }
+  
+    // LEAF DISEASE MODAL LOGIC
+    let leafCurrentSlide = 0;
+    const leafTotalSlides = 5;
+    
+    function openLeafModal() {
+      document.getElementById('leafModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+      initLeafDots();
+      updateLeafCarousel();
+    }
+    
+    function closeLeafModal() {
+      document.getElementById('leafModal').classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+    
+    function moveLeafSlide(dir) {
+      leafCurrentSlide += dir;
+      if (leafCurrentSlide < 0) leafCurrentSlide = leafTotalSlides - 1;
+      if (leafCurrentSlide >= leafTotalSlides) leafCurrentSlide = 0;
+      updateLeafCarousel();
+    }
+    
+    function goToLeafSlide(index) {
+      leafCurrentSlide = index;
+      updateLeafCarousel();
+    }
+    
+    function updateLeafCarousel() {
+      const track = document.getElementById('leafCarouselTrack');
+      track.style.transform = `translateX(-${leafCurrentSlide * 100}%)`;
+      const dots = document.getElementById('leafCarouselDots').querySelectorAll('.dot');
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === leafCurrentSlide);
+      });
+    }
+    
+    function initLeafDots() {
+      const dotsContainer = document.getElementById('leafCarouselDots');
+      dotsContainer.innerHTML = '';
+      for(let i=0; i<leafTotalSlides; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot' + (i===leafCurrentSlide ? ' active' : '');
+        dot.onclick = () => goToLeafSlide(i);
+        dotsContainer.appendChild(dot);
+      }
+    }
   </script>
+</script>
 </script>
 </script>
   <script>
@@ -1678,6 +1727,43 @@
             <li><strong>Data Cleaning & Standardization:</strong> Implements ETL pipelines to format extracted data consistently before pushing it to the database.</li>
             <li><strong>Robust Storage:</strong> Uses PostgreSQL to store historical data efficiently, allowing for quick retrieval and business intelligence querying.</li>
             <li><strong>Seamless Workflow Integration:</strong> Specifically built to empower sales and research teams by delivering clean, structured data directly into their pipelines.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- LEAF DISEASE MODAL -->
+  <div class="modal-overlay" id="leafModal" onclick="if(event.target===this) closeLeafModal()">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeLeafModal()">&times;</button>
+      <div class="modal-body">
+        <h3 class="modal-title">Leaf Disease Detection (Deep Learning)</h3>
+        
+        <div class="carousel-container">
+          <div class="carousel-track" id="leafCarouselTrack">
+            <div class="carousel-slide"><img src="leaf1.png" alt="Leaf Disease Detection - Sample 1" loading="lazy"></div>
+            <div class="carousel-slide"><img src="leaf2.png" alt="Leaf Disease Detection - Model Architecture" loading="lazy"></div>
+            <div class="carousel-slide"><img src="leaf3.png" alt="Leaf Disease Detection - Sample 3" loading="lazy"></div>
+            <div class="carousel-slide"><img src="leaf4.png" alt="Leaf Disease Detection - Results" loading="lazy"></div>
+            <div class="carousel-slide"><img src="leaf5.png" alt="Leaf Disease Detection - Evaluation" loading="lazy"></div>
+          </div>
+          <button class="carousel-btn carousel-prev" onclick="moveLeafSlide(-1)">&#10094;</button>
+          <button class="carousel-btn carousel-next" onclick="moveLeafSlide(1)">&#10095;</button>
+        </div>
+        <div class="carousel-dots" id="leafCarouselDots"></div>
+
+        <div class="modal-desc">
+          <p>A deep learning research project focused on the automated classification of <strong>tomato leaf diseases</strong> using Convolutional Neural Networks (CNN). This work was published in a <strong>peer-reviewed journal</strong>, validating its contribution to the field of agricultural AI.</p>
+          <br>
+          <p><strong>Key Technical Highlights:</strong></p>
+          <ul style="margin-left: 1.5rem; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
+            <li><strong>Dataset & Preprocessing:</strong> Trained and validated on a large-scale dataset of 15,000+ annotated plant leaf images. Applied augmentation techniques including flipping, rotation, and contrast adjustment to improve model generalization.</li>
+            <li><strong>CNN Architecture:</strong> Designed and optimized a multi-layer CNN with convolutional, pooling, batch normalization, and dropout layers to identify 10+ disease categories with high accuracy.</li>
+            <li><strong>Model Performance:</strong> Achieved strong classification accuracy through iterative training and hyperparameter tuning, significantly outperforming baseline approaches.</li>
+            <li><strong>Framework & Tools:</strong> Built entirely using Python, TensorFlow, and Keras. Evaluation metrics included accuracy, precision, recall, and confusion matrix analysis.</li>
+            <li><strong>Published Research:</strong> The findings and methodology were documented and published in a peer-reviewed academic journal, affirming the scientific rigor and reproducibility of the approach.</li>
           </ul>
         </div>
       </div>
